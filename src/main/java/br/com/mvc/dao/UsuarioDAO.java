@@ -2,6 +2,7 @@ package br.com.mvc.dao;
 
 import br.com.mvc.model.Perfil;
 import br.com.mvc.model.Usuario;
+import br.com.mvc.util.PasswordUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,21 +19,6 @@ public class UsuarioDAO extends MysqlDAO {
 
     public UsuarioDAO() {
         super();
-    }
-
-    public Usuario buscarPorLoginESenha(String login, String senha) {
-        String sql = "SELECT u.id, u.nome, u.login, u.senha, u.perfil_id, p.nome AS perfil_nome "
-                + "FROM usuarios u "
-                + "INNER JOIN perfis p ON p.id = u.perfil_id "
-                + "WHERE u.login = ? AND u.senha = ?";
-        try (ResultSet rs = super.executar(sql, login, senha)) {
-            if (rs.next()) {
-                return this.mapearComPerfil(rs);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar usuario.", e);
-        }
-        return null;
     }
 
     public List<Usuario> listarTodos() {
@@ -100,7 +86,7 @@ public class UsuarioDAO extends MysqlDAO {
                     sql,
                     usuario.getNome(),
                     usuario.getLogin(),
-                    usuario.getSenha(),
+                    PasswordUtil.hash(usuario.getSenha()),
                     usuario.getPerfilId());
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir.", e);
@@ -114,7 +100,7 @@ public class UsuarioDAO extends MysqlDAO {
                     sql,
                     usuario.getNome(),
                     usuario.getLogin(),
-                    usuario.getSenha(),
+                    PasswordUtil.hash(usuario.getSenha()),
                     usuario.getPerfilId(),
                     usuario.getId());
         } catch (SQLException e) {
@@ -129,6 +115,13 @@ public class UsuarioDAO extends MysqlDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar.", e);
         }
+    }
+
+
+    public void atualizarSenhaHash(Long id, String hash) {
+        String sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
+        try { super.executarUpdate(sql, hash, id); }
+        catch (SQLException e) { throw new RuntimeException("Erro ao atualizar senha.", e); }
     }
 
     private Usuario mapearComPerfil(ResultSet rs) throws SQLException {

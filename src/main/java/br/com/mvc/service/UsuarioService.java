@@ -3,6 +3,7 @@ package br.com.mvc.service;
 import br.com.mvc.dao.PerfilDAO;
 import br.com.mvc.dao.UsuarioDAO;
 import br.com.mvc.model.Usuario;
+import br.com.mvc.util.PasswordUtil;
 
 import java.util.List;
 
@@ -37,9 +38,15 @@ public class UsuarioService {
             throw new IllegalArgumentException("Informe login e senha.");
         }
 
-        Usuario usuario = this.usuarioDAO.buscarPorLoginESenha(login, senha);
-        if (usuario == null) {
+        Usuario usuario = this.usuarioDAO.buscarPorLogin(login);
+        if (usuario == null || !PasswordUtil.verify(senha, usuario.getSenha())) {
             throw new IllegalArgumentException("Login ou senha invalidos.");
+        }
+        // Migra automaticamente as senhas antigas em texto puro após autenticação válida.
+        if (!usuario.getSenha().startsWith("pbkdf2$")) {
+            String hash = PasswordUtil.hash(senha);
+            this.usuarioDAO.atualizarSenhaHash(usuario.getId(), hash);
+            usuario.setSenha(hash);
         }
         return usuario;
     }

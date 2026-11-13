@@ -8,19 +8,13 @@ import java.sql.SQLException;
 
 public class MysqlSingleton {
 
-    private static final String URL =
-            "jdbc:mysql://mysql:3306/sugestfilmes"
-            + "?useUnicode=true"
-            + "&characterEncoding=UTF-8"
-            + "&serverTimezone=America/Sao_Paulo"
-            + "&useSSL=false"
-            + "&allowPublicKeyRetrieval=true";
-
-    private static final String USER = "mvc_user";
-    private static final String PASSWORD = "mvc123";
+    private static final String URL = System.getenv().getOrDefault("DB_URL",
+            "jdbc:mysql://mysql:3306/sugestfilmes?useUnicode=true&characterEncoding=UTF-8&serverTimezone=America/Sao_Paulo&useSSL=false&allowPublicKeyRetrieval=true");
+    private static final String USER = System.getenv().getOrDefault("DB_USER", "mvc_user");
+    private static final String PASSWORD = System.getenv().getOrDefault("DB_PASSWORD", "local_app_change_me");
 
     private static MysqlSingleton instance;
-    private Connection conexao;
+    private final ThreadLocal<Connection> conexoes = new ThreadLocal<>();
 
     private MysqlSingleton() {
         try {
@@ -40,15 +34,12 @@ public class MysqlSingleton {
     }
 
     private Connection obterConexao() throws SQLException {
-        if (this.conexao == null || this.conexao.isClosed()) {
-            this.conexao = DriverManager.getConnection(
-                    URL,
-                    USER,
-                    PASSWORD
-            );
+        Connection conexao = this.conexoes.get();
+        if (conexao == null || conexao.isClosed() || !conexao.isValid(2)) {
+            conexao = DriverManager.getConnection(URL, USER, PASSWORD);
+            this.conexoes.set(conexao);
         }
-
-        return this.conexao;
+        return conexao;
     }
 
     public ResultSet executar(
