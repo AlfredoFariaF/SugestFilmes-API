@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.*;
 
 /** Controller REST: HTTP/JSON. Regras permanecem nos Services e SQL nos DAOs. */
-@WebServlet(urlPatterns = "/api/*")
 public class ApiController extends HttpServlet {
     private final Gson gson = new GsonBuilder().serializeNulls().create();
     private final FilmeService filmes = new FilmeService();

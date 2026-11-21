@@ -1,26 +1,27 @@
 package br.com.mvc.controller;
 
+import br.com.mvc.api.ApiSupport;
 import br.com.mvc.model.Filme;
 import br.com.mvc.service.FilmeService;
-import br.com.mvc.api.ApiSupport;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 public class FilmeController {
 
     private final FilmeService filmeService = new FilmeService();
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder().serializeNulls().create();
 
     // GET /api/filmes
     public void listar(
