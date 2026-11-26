@@ -42,7 +42,8 @@ public class UsuarioService {
         if (usuario == null || !PasswordUtil.verify(senha, usuario.getSenha())) {
             throw new IllegalArgumentException("Login ou senha invalidos.");
         }
-        // Migra automaticamente as senhas antigas em texto puro após autenticação válida.
+        // Migra automaticamente as senhas antigas em texto puro após autenticação
+        // válida.
         if (!usuario.getSenha().startsWith("pbkdf2$")) {
             String hash = PasswordUtil.hash(senha);
             this.usuarioDAO.atualizarSenhaHash(usuario.getId(), hash);

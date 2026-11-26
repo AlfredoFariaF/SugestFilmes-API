@@ -16,8 +16,7 @@ import java.util.Map;
 
 public class CategoriaController {
 
-    private final CategoriaService categoriaService =
-            new CategoriaService();
+    private final CategoriaService categoriaService = new CategoriaService();
 
     private final Gson gson = new Gson();
 

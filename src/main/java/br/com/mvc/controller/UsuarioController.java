@@ -16,8 +16,7 @@ import java.util.Map;
 
 public class UsuarioController {
 
-    private final UsuarioService usuarioService =
-            new UsuarioService();
+    private final UsuarioService usuarioService = new UsuarioService();
 
     private final Gson gson = new Gson();
 

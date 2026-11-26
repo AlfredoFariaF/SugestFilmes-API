@@ -15,8 +15,7 @@ import java.util.Map;
 
 public class PerfilController {
 
-    private final PerfilService perfilService =
-            new PerfilService();
+    private final PerfilService perfilService = new PerfilService();
 
     private final Gson gson = new Gson();
 

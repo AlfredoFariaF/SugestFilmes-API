@@ -13,8 +13,7 @@ import java.util.List;
 
 public class RecomendacaoController {
 
-    private final RecomendacaoService recomendacaoService =
-            new RecomendacaoService();
+    private final RecomendacaoService recomendacaoService = new RecomendacaoService();
 
     // GET /api/recomendacoes?categorias=1,2
     public void listar(
@@ -41,14 +40,12 @@ public class RecomendacaoController {
             ApiSupport.erro(
                     response,
                     400,
-                    "Informe categorias, por exemplo ?categorias=1,2."
-            );
+                    "Informe categorias, por exemplo ?categorias=1,2.");
             return;
         }
 
         // Consulta as recomendações
-        List<Filme> filmes =
-                recomendacaoService.recomendar(categorias);
+        List<Filme> filmes = recomendacaoService.recomendar(categorias);
 
         // Retorna os filmes em JSON
         ApiSupport.json(response, 200, filmes);

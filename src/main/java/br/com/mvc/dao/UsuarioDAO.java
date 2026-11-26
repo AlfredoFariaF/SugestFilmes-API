@@ -117,11 +117,13 @@ public class UsuarioDAO extends MysqlDAO {
         }
     }
 
-
     public void atualizarSenhaHash(Long id, String hash) {
         String sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
-        try { super.executarUpdate(sql, hash, id); }
-        catch (SQLException e) { throw new RuntimeException("Erro ao atualizar senha.", e); }
+        try {
+            super.executarUpdate(sql, hash, id);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar senha.", e);
+        }
     }
 
     private Usuario mapearComPerfil(ResultSet rs) throws SQLException {

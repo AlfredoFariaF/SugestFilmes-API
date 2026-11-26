@@ -6,12 +6,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-/** Libera chamadas do frontend local e trata o preflight CORS antes do filtro JWT. */
+/**
+ * Libera chamadas do frontend local e trata o preflight CORS antes do filtro
+ * JWT.
+ */
 public class CorsFilter implements Filter {
     private static final Set<String> ALLOWED_ORIGINS = Set.of(
-        "http://localhost:8080",
-        "http://127.0.0.1:8080"
-    );
+            "http://localhost:8080",
+            "http://127.0.0.1:8080");
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

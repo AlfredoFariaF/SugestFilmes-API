@@ -12,8 +12,7 @@ import java.util.Map;
 
 public class ApiSupport {
 
-    private static final Gson gson =
-            new GsonBuilder().serializeNulls().create();
+    private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
     public static void json(
             HttpServletResponse response,
@@ -48,16 +47,14 @@ public class ApiSupport {
         }
 
         return "Administrador".equalsIgnoreCase(
-                claims.get("role").getAsString()
-        );
+                claims.get("role").getAsString());
     }
 
     public static void exigirAdmin(HttpServletRequest request) {
 
         if (!admin(request)) {
             throw new SecurityException(
-                "Operação permitida somente para administradores."
-            );
+                    "Operação permitida somente para administradores.");
         }
     }
 }

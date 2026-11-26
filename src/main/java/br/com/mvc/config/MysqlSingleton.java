@@ -21,8 +21,7 @@ public class MysqlSingleton {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(
-                    "Driver MySQL nao encontrado no projeto.", e
-            );
+                    "Driver MySQL nao encontrado no projeto.", e);
         }
     }
 
@@ -44,8 +43,7 @@ public class MysqlSingleton {
 
     public ResultSet executar(
             String sql,
-            Object... parametros
-    ) throws SQLException {
+            Object... parametros) throws SQLException {
 
         Connection conn = this.obterConexao();
 
@@ -60,8 +58,7 @@ public class MysqlSingleton {
 
     public int executarUpdate(
             String sql,
-            Object... parametros
-    ) throws SQLException {
+            Object... parametros) throws SQLException {
 
         Connection conn = this.obterConexao();
 

@@ -17,8 +17,7 @@ import java.util.Map;
 
 public class AvaliacaoController {
 
-    private final AvaliacaoService avaliacaoService =
-            new AvaliacaoService();
+    private final AvaliacaoService avaliacaoService = new AvaliacaoService();
 
     private final Gson gson = new Gson();
 
@@ -105,15 +104,14 @@ public class AvaliacaoController {
 
         String comentario = body.has("comentario")
                 && !body.get("comentario").isJsonNull()
-                ? body.get("comentario").getAsString()
-                : null;
+                        ? body.get("comentario").getAsString()
+                        : null;
 
         avaliacaoService.atualizar(
                 id,
                 usuarioId(request),
                 nota,
-                comentario
-        );
+                comentario);
 
         ApiSupport.json(response, 200,
                 Map.of("mensagem", "Avaliação atualizada."));

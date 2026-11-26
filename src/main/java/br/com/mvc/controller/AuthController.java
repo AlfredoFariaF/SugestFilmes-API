@@ -17,8 +17,7 @@ import java.util.Map;
 
 public class AuthController {
 
-    private final UsuarioService usuarioService =
-            new UsuarioService();
+    private final UsuarioService usuarioService = new UsuarioService();
 
     // POST /api/auth/login
     public void login(
@@ -50,8 +49,7 @@ public class AuthController {
         String token = JwtUtil.issue(
                 usuario.getId(),
                 usuario.getLogin(),
-                perfil
-        );
+                perfil);
 
         // 6. Preparar os dados públicos do usuário
         Map<String, Object> dadosUsuario = new LinkedHashMap<>();
@@ -67,8 +65,7 @@ public class AuthController {
                 "token", token,
                 "tipo", "Bearer",
                 "expiraEm", 3600,
-                "usuario", dadosUsuario
-        );
+                "usuario", dadosUsuario);
 
         ApiSupport.json(response, 200, resultado);
     }
